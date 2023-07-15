@@ -3,6 +3,7 @@ package homeTest;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -23,7 +24,7 @@ public class TabbedPanel {
 		CardLayout tabbedPanelLayout = new CardLayout();
 		tabbedPanel.setLayout(tabbedPanelLayout);
 
-		tabbedPanel.setBackground(Color.black);
+		cannedComments.setBackground(Color.black);
 		
 		tabbedPanel.add(cannedComments, "Canned Comments");
 		
@@ -39,41 +40,27 @@ public class TabbedPanel {
 		
 		OutputPanel bjSearchTOutputPanel = new OutputPanel(this);
 		JPanel bjOutputPanel = bjSearchTOutputPanel.returnOutputPanel();
-		
-//		VerticalBackPanel vertbackPanel = new VerticalBackPanel();
-//		JPanel vBackPanel = vertbackPanel.returnVerticalBackPanel();
-		
+
 		batchJobSearch.add(bjTitlePanel);
 		batchJobSearch.add(bjInputPanel);
 		batchJobSearch.add(bjOutputPanel);
-		
-//		vBackPanel.setBackground(Color.black);
-//
-//		batchJobSearch.add(vBackPanel);
+
 		tabbedPanel.add(batchJobSearch, "Batch Job Search");
 		
+		changeUser.setLayout(new BoxLayout(changeUser, BoxLayout.X_AXIS));
 		
+		AddUser addUser = new AddUser();		
+		JPanel appAddUser = addUser.returnAddUserPanel();
 		
-		TitlePanel changeUserTitlePanel = new TitlePanel();
-		JPanel cuTitlePanel = changeUserTitlePanel.returnTitlePanel();
+		DeleteUser deleteUser = new DeleteUser();		
+		JPanel appDeleteUser = deleteUser.returnDeleteUserPanel();
 		
-		InputPanel changeUserInputPanel = new InputPanel();
-		JPanel cuInputPanel = changeUserInputPanel.returnInputPanel();
+		changeUser.add(appAddUser);
+		changeUser.add(appDeleteUser);
 		
-		OutputPanel changeUserOutputPanel = new OutputPanel(this);
-		JPanel cuOutputPanel = changeUserOutputPanel.returnOutputPanel();
-		
-		HorizontalPanel horBackPanel = new HorizontalPanel();
-		JPanel hBackPanel = horBackPanel.returnHorizontalBackPanel();
-		
-		hBackPanel.add(cuTitlePanel);
-		hBackPanel.add(cuInputPanel);
-		hBackPanel.add(cuOutputPanel);
-		
-		changeUser.add(hBackPanel);
 		tabbedPanel.add( changeUser, "Change User" );
 		
-		
+		changeBatchJob.setBackground(Color.pink);
 		tabbedPanel.add( changeBatchJob, "Change Batch Job" );
 		
 	}
