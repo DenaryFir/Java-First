@@ -4,7 +4,7 @@ public class DataValidator {
 	
 	public Boolean isNullChecker(String stringToCheck) {
 		
-		if(stringToCheck.isEmpty()) {
+		if ( stringToCheck == null || stringToCheck.isEmpty() ) {
 			return(true);
 		}
 		
@@ -14,7 +14,7 @@ public class DataValidator {
 	
 	public Boolean staffIDChecker(String staffID) {
 		//needs to be 8 characters long and all numbers
-		if( staffID.length() != 8 ) {
+		if(staffID == null ||  staffID.length() != 8 ) {
 			return(false);
 		}
 		

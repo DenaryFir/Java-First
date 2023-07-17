@@ -2,6 +2,7 @@ package homeTest;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -33,21 +34,25 @@ public class PanelMaker extends JPanel implements ActionListener {
 	String foregroundColour;
 	String titleText;
 	String descriptionText;
+	TabbedPanel tabbedPanel;
+	Boolean goNoGo;
 	ArrayList<String> titleNamesArray = new ArrayList<String>();
 	ArrayList<String> labelNamesArray = new ArrayList<String>();
 	ArrayList<String> buttonNamesArray = new ArrayList<String>();
 	ArrayList<String> comboboxNamesArray = new ArrayList<String>();
+	ArrayList<String> userInput = new ArrayList<String>();
 	ArrayList<JLabel> labelArray = new ArrayList<JLabel>();
 	ArrayList<JComboBox> comboboxArray = new ArrayList<JComboBox>();
 	ArrayList<JButton> buttonArray = new ArrayList<JButton>();
 	
 	HashMap<String, Color> formatColours = new HashMap<String, Color>();
 	Format colours = new Format();
-	
-	
+
 	JPanel madePanel = new JPanel();
 	
-	public PanelMaker(ArrayList<ArrayList<String>> panelDetail) {
+	public PanelMaker(ArrayList<ArrayList<String>> panelDetail, TabbedPanel tabbedPanel) {
+			
+		this.tabbedPanel = tabbedPanel;
 		
 		/*
 		 * panelDetail must always come in this order
@@ -91,7 +96,7 @@ public class PanelMaker extends JPanel implements ActionListener {
 		titleDescriptionMaker();
 		labelAndUserInputMaker();
 		buttonMaker();
-
+		
 		
 	}
 	
@@ -156,11 +161,12 @@ public class PanelMaker extends JPanel implements ActionListener {
 			panelToAddJPanel.setLayout(new BoxLayout(panelToAddJPanel, BoxLayout.Y_AXIS));
 			panelToAddJPanel.setBackground(formatColours.get(backgroundColour));
 			labelArray.get(i).setForeground(formatColours.get(foregroundColour));
-			panelToAddJPanel.setAlignmentY(panelToAddJPanel.CENTER_ALIGNMENT);
+			panelToAddJPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
 			panelToAddJPanel.setBorder(BorderFactory.createEmptyBorder(50,25,50,25));
 			panelToAddJPanel.add(labelArray.get(i));
 			
 			if ( comboboxArray.size() > 0 ) {
+				comboboxArray.get(i).setMaximumSize(new Dimension (200, 100));
 				panelToAddJPanel.add(comboboxArray.get(i));
 			}
 
@@ -173,14 +179,19 @@ public class PanelMaker extends JPanel implements ActionListener {
 	
 	public void buttonMaker() {
 		
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new FlowLayout());
+		buttonPanel.setBackground(formatColours.get(backgroundColour));
+		
 		for ( int i = 0 ; i < buttonArray.size() ; i ++ ) {
-			JPanel buttonPanel = new JPanel();
-			buttonPanel.setName(buttonArray.get(i).getName());
+			
 			buttonPanel.add(buttonArray.get(i));
 			buttonArray.get(i).addActionListener(this);
-			madePanel.add(buttonArray.get(i));
+			buttonPanel.add(buttonArray.get(i));
 			
 		}	
+		
+		madePanel.add(buttonPanel);
 	}
 
 	@Override
@@ -190,73 +201,65 @@ public class PanelMaker extends JPanel implements ActionListener {
 		JButton buttonPressed = (JButton) e.getSource();
 
 		if (buttonPressed.getName().equals("Search")) {
-			String source = "removeBatchJob";
-			System.out.println("Search");
-//			PopupFrame popUp = new PopupFrame(source, this);
-//			popUp.returnPopUpFrame();
+
+			userInput = getUserInputValues();
 					
 		}
 		else if (buttonPressed.getName().equals("Clear")) {
-			String source = "removeBatchJob";
-			System.out.println("Clear");
-//			PopupFrame popUp = new PopupFrame(source, this);
-//			popUp.returnPopUpFrame();
-					
+			//got one in finally
+			comboboxArray.forEach( (n) -> {n.setSelectedItem(null);} );
+
 		}
 		else if (buttonPressed.getName().equals("Edit")) {
-			String source = "removeBatchJob";
+			tabbedPanel.showChangeBatchJobCard();
 			System.out.println("Edit");
-//			PopupFrame popUp = new PopupFrame(source, this);
-//			popUp.returnPopUpFrame();
+
 					
 		}
 		else if (buttonPressed.getName().equals("Add")) {
-			String source = "removeBatchJob";
-			System.out.println("Add");
-//			PopupFrame popUp = new PopupFrame(source, this);
-//			popUp.returnPopUpFrame();
+			String source = "addUser";
+			DataValidator dataValidator = new DataValidator();
+			userInput = getUserInputValues();
+			Boolean nullValidated = dataValidator.isNullChecker(userInput.get(0));
+			Boolean staffIDValidated = dataValidator.staffIDChecker(userInput.get(0));
+	
+			if ( nullValidated == true && staffIDValidated == true ) {
+				PopupFrame popUp = new PopupFrame(source, this);
+				popUp.returnPopUpFrame();			
+			}
+			else {
+				System.out.println("oops");
+			}
+			
+
 					
 		}
 		else if (buttonPressed.getName().equals("Delete")) {
-			String source = "removeBatchJob";
+			String source = "removeUser";
 			System.out.println("Delete");
-//			PopupFrame popUp = new PopupFrame(source, this);
-//			popUp.returnPopUpFrame();
+			PopupFrame popUp = new PopupFrame(source, this);
+			popUp.returnPopUpFrame();
 					
 		}
-		else if (buttonPressed.getName().equals("Edit")) {
-			String source = "removeBatchJob";
-			System.out.println("Edit");
-//			PopupFrame popUp = new PopupFrame(source, this);
-//			popUp.returnPopUpFrame();
 					
-		}
 		else if (buttonPressed.getName().equals("Canned Comments")) {
 			String source = "removeBatchJob";
 			System.out.println("Canned Comments");
-//			PopupFrame popUp = new PopupFrame(source, this);
-//			popUp.returnPopUpFrame();
 					
 		}
 		else if (buttonPressed.getName().equals("Batch Job Search")) {
 			String source = "removeBatchJob";
 			System.out.println("Batch Job Search");
-//			PopupFrame popUp = new PopupFrame(source, this);
-//			popUp.returnPopUpFrame();
 					
 		}
 		else if (buttonPressed.getName().equals("Change User")) {
 			String source = "removeBatchJob";
 			System.out.println("Change User");
-//			PopupFrame popUp = new PopupFrame(source, this);
-//			popUp.returnPopUpFrame();
 					
 		}
 		else if (buttonPressed.getName().equals("Change Batch Jobs")) {
 			String source = "removeBatchJob";
 			System.out.println("Change Batch Jobs");
-//			PopupFrame popUp = new PopupFrame(source, this);
-//			popUp.returnPopUpFrame();
 					
 		}
 
@@ -265,4 +268,8 @@ public class PanelMaker extends JPanel implements ActionListener {
 		}
 	}
 
+	public ArrayList<String> getUserInputValues () {
+		comboboxArray.forEach( (n) -> {userInput.add( (String) n.getSelectedItem()) ; } );
+		return(userInput);
+	}
 }

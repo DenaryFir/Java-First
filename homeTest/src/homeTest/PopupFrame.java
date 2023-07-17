@@ -31,15 +31,15 @@ public class PopupFrame extends JFrame implements ActionListener {
 	String source;
 	String labelText;
 	Boolean goNoGo;
-	DeleteUser sourcePanelVariable;
+	PanelMaker sourcePanel;
 	
 	HashMap<String, Color> formatColours = new HashMap<String, Color>();
 	Format colours = new Format();
 	
-	public PopupFrame (String source, DeleteUser sourcePanel) {
+	public PopupFrame (String source, PanelMaker sourcePanel) {
 		
-		sourcePanelVariable = sourcePanel;
-
+		this.sourcePanel = sourcePanel;
+		this.source = source;
 		//this.source = source;
 		
 		formatColours = colours.returnFormatColours();
@@ -100,7 +100,7 @@ public class PopupFrame extends JFrame implements ActionListener {
 		
 		if(e.getSource() == popUpAcceptButton) {
 			//run sql script
-			sourcePanelVariable.goNoGo = true;
+			sourcePanel.goNoGo = true;
 			popUp.dispose();
 		}
 		else if(e.getSource() == popUpDeclineButton) {

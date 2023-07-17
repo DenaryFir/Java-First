@@ -121,7 +121,7 @@ public class TabbedPanel {
 		
 		System.out.println(panelDetail);
 		
-		PanelMaker panelMaker = new PanelMaker(panelDetail);
+		PanelMaker panelMaker = new PanelMaker(panelDetail, this);
 		JPanel returnPanelMaker = panelMaker.returnPanel();
 		//lambdaclear();
 		
