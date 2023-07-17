@@ -15,12 +15,13 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class DeleteUser implements ActionListener {
+public class DeleteUser extends JPanel implements ActionListener {
 	
 	JPanel deleteUser = new JPanel();
 	JButton deleteUserButton;
 	JButton clearButton;
 	JComboBox userList;
+	public Boolean goNoGo;
 	
 	HashMap<String, Color> formatColours = new HashMap<String, Color>();
 	Format colours = new Format();
@@ -73,7 +74,7 @@ public class DeleteUser implements ActionListener {
 		deleteUser.add(Box.createRigidArea(new Dimension(100, 10)));
 		deleteUser.add(buttonPanel);
 		deleteUser.add(Box.createRigidArea(new Dimension(100, 10)));
-		
+		System.out.println(goNoGo);
 	}
 	
 	public JPanel returnDeleteUserPanel() {	
@@ -90,8 +91,10 @@ public class DeleteUser implements ActionListener {
 			if( userListValue != null ) { 
 				
 				String source = "removeUser";
-				PopupFrame popup = new PopupFrame(source);
+				PopupFrame popup = new PopupFrame(source, this);
 				popup.returnPopUpFrame();
+				
+				System.out.println(goNoGo);
 			}
 		}
 		else if (e.getSource() == clearButton) {
@@ -101,6 +104,10 @@ public class DeleteUser implements ActionListener {
 			System.out.print("How did you get here?");
 		}
 			
+	}
+	
+	public void booleanSetter() {
+		goNoGo = true;
 	}
 
 }
